@@ -1,0 +1,107 @@
+﻿@using System
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script src="~/Scripts/modernizr-2.6.2.js"></script>
+</head>
+<body>
+    @{
+        var currentController = (ViewContext.RouteData.Values["controller"] ?? "").ToString();
+        var currentAction = (ViewContext.RouteData.Values["action"] ?? "").ToString();
+        Func<string, string, bool> isActive = (ctrl, act) =>
+            string.Equals(currentController, ctrl, StringComparison.OrdinalIgnoreCase)
+            && (string.IsNullOrEmpty(act) || string.Equals(currentAction, act, StringComparison.OrdinalIgnoreCase));
+        Func<string, bool> isController = ctrl =>
+            string.Equals(currentController, ctrl, StringComparison.OrdinalIgnoreCase);
+
+        string settingsCollapseClass = isController("Settings") ? "collapse show" : "collapse";
+        string settingsToggleAria = isController("Settings") ? "true" : "false";
+    }
+
+    <div class="d-flex" id="wrapper">
+        <div class="border-end bg-white" id="sidebar-wrapper">
+            <div class="sidebar-heading border-bottom bg-light">City Counsel Administration </div>
+            <div class="list-group list-group-flush">
+                <a class="list-group-item list-group-item-action p-3 @(isActive("Home","Index") ? "active list-group-item-light text-light" : "list-group-item-light")" href="@Url.Action("Index","Home")">
+                    <i class="bi bi-clipboard-data-fill me-2"></i>Dashboard
+                </a>
+                <a class="list-group-item list-group-item-action p-3 @(isController("BarangayRecords") ? "active list-group-item-light text-light" : "list-group-item-light")" href="@Url.Action("Index","BarangayRecords")">
+                    <i class="bi bi-archive-fill me-2"></i>Barangay Records
+                </a>
+
+                <a class="list-group-item list-group-item-action list-group-item-light p-3 @(isController("Reports") ? "active list-group-item-light text-light" : "list-group-item-light")" href="@Url.Action("Index","Reports")">
+                    <i class="bi bi-clipboard-check-fill me-2"></i>Reports
+                </a>
+
+                <a class="list-group-item list-group-item-action list-group-item-light p-3 @(isController("Events") ? "active list-group-item-light text-light" : "list-group-item-light")" href="@Url.Action("Index","Events")"><i class="bi bi-calendar2-week-fill me-2"></i>Events</a>
+
+                <!-- Settings parent: added settings-toggle class and right-facing chevron -->
+                <a class="list-group-item list-group-item-action p-3 @(isController("Settings") ? "active list-group-item-light text-light settings-toggle" : "list-group-item-light settings-toggle")"
+                   data-bs-toggle="collapse"
+                   href="#settingsCollapse"
+                   role="button"
+                   aria-expanded="@settingsToggleAria"
+                   aria-controls="settingsCollapse">
+                    <i class="bi bi-gear-fill me-2"></i>Settings
+                    <i class="bi bi-chevron-right float-end"></i>
+                </a>
+                <div class="@settingsCollapseClass" id="settingsCollapse">
+                    <a class="list-group-item list-group-item-action ps-5 py-2 @(isActive("Settings","General") ? "active list-group-item-light text-dark" : "list-group-item-light")"
+                       href="@Url.Action("General","Settings")">General</a>
+
+                    <a class="list-group-item list-group-item-action ps-5 py-2 @(isActive("Settings","Users") ? "active list-group-item-light text-dark" : "list-group-item-light")"
+                       href="@Url.Action("Users","Settings")">Users</a>
+
+                    <a class="list-group-item list-group-item-action ps-5 py-2 @(isActive("Settings","Theme") ? "active list-group-item-light text-dark" : "list-group-item-light")"
+                       href="@Url.Action("Theme","Settings")">Theme</a>
+
+                </div>
+
+                <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#"><i class="bi bi-box-arrow-left me-2"></i>Logout</a>
+            </div>
+        </div>
+        <!-- Page content wrapper-->
+        <div id="page-content-wrapper">
+            <!-- Top navigation-->
+            <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+                <div class="container-fluid">
+                    <button class="btn btn-light" id="sidebarToggle"><i class="bi bi-list"></i></button>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
+                            <li class="nav-item active"><a class="nav-link" href="#!">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#!">FAQ</a></li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Account</a>
+                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="#!">Action</a>
+                                    <a class="dropdown-item" href="#!">Another action</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="#!">Something else here</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            <!-- Page content-->
+            <div class="container body-content container-fluid ">
+                @RenderBody()
+                <hr />
+                <footer>
+                    <p>Community Records System Application</p>
+                </footer>
+            </div>
+        </div>
+    </div>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/default/index.js"></script>
+</body>
+</html>

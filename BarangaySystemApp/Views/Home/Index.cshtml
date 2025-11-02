@@ -1,0 +1,38 @@
+﻿@{
+    ViewBag.Title = "Community Records Management System";
+}
+
+<h1 class="mt-4">Community Records Management System (CRMS)</h1>
+<p>Lorem ipsum dolor sit amet consectetur adipiscing elit. Dolor sit amet consectetur adipiscing elit quisque faucibus.</p>
+<p>
+    Lorem ipsum dolor sit amet consectetur adipiscing elit. Amet consectetur adipiscing elit quisque faucibus ex sapien. Quisque faucibus ex sapien vitae pellentesque sem placerat. Vitae pellentesque sem placerat in id cursus mi.
+    @*Make sure to keep all page content within the
+        <code>#page-content-wrapper</code>
+        . The top navbar is optional, and just for demonstration. Just create an element with the
+        <code>#sidebarToggle</code>
+        ID which will toggle the menu when clicked.*@
+</p>
+
+<div class="container">
+    <div class="row gx-3 gy-3">
+        <div class="col-12 col-lg-6">
+            <div class="card">
+                <div class="card-body">
+                    <!-- responsive canvas (Chart.js will size to container width) -->
+                    <canvas id="myChart" style="width:100%;height:300px;"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-lg-6">
+            <div class="card">
+                <div class="card-body">
+                    <canvas id="myPieChart" style="width:100%;height:300px;"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.umd.min.js"></script>
+<script src="~/Scripts/src-content-js/dashboard.js"></script>
